@@ -60,6 +60,12 @@ public class DataHardware {
 
             DecimalFormat df = new DecimalFormat("0.0");
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice gds[] = ge.getScreenDevices();
+            
+            for(GraphicsDevice g : gds){
+                System.out.println(g.getIDstring());
+            }
+            
             GraphicsDevice gd = ge.getDefaultScreenDevice();
 
             long accelMemory = gd.getAvailableAcceleratedMemory();  // in bytes
