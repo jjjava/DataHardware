@@ -1,9 +1,8 @@
-
 package datahardware;
 
 /**
  *
- * @author hudson.sales
+ * @author hudson schumaker
  */
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -14,11 +13,11 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.text.DecimalFormat;
+import java.util.Enumeration;
 
 public class DataHardware {
 
     public static void main(String[] args) {
-
         InetAddress ip;
         try {
             ip = InetAddress.getLocalHost();
@@ -64,13 +63,16 @@ public class DataHardware {
             GraphicsDevice gd = ge.getDefaultScreenDevice();
 
             long accelMemory = gd.getAvailableAcceleratedMemory();  // in bytes
-            
-             System.out.println("Initial Acc. Mem.: "+accelMemory);
-            
-            System.out.println("Initial Acc. Mem.: "
-                    + df.format(((double) accelMemory) / (1024 * 1024)) + " MB");
+            System.out.println("Initial Acc. Mem.: " + accelMemory);
+            System.out.println("Initial Acc. Mem.: " + df.format(((double) accelMemory) / (1024 * 1024)) + " MB");
 
             NetworkInterface network = NetworkInterface.getByInetAddress(ip);
+            Enumeration<NetworkInterface> listNetWorkInterface = NetworkInterface.getNetworkInterfaces();
+
+            while (listNetWorkInterface.hasMoreElements()) {
+                System.out.println(listNetWorkInterface.nextElement().getDisplayName());
+            }
+
             System.out.println("Nome da interfce de rede: " + network.getName());
             byte[] mac = network.getHardwareAddress();
             System.out.print("Current MAC address : ");
@@ -88,13 +90,12 @@ public class DataHardware {
                 System.out.println("Free space (bytes): " + root.getFreeSpace());
                 System.out.println("Usable space (bytes): " + root.getUsableSpace());
             }
-
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            System.err.println(e);
         } catch (SocketException e) {
-            e.printStackTrace();
+            System.err.println(e);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e);
         }
     }
 }
